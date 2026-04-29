@@ -1,37 +1,82 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Finance Tracker</title>
+    <title>Personal Finance Tracker</title>
+    <style>
+        body {
+            font-family: monospace;
+            background-color: #111;
+            color: #00ffcc;
+            padding: 20px;
+        }
+
+        input, button {
+            padding: 8px;
+            margin: 5px;
+            font-family: monospace;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        #output {
+            margin-top: 20px;
+            white-space: pre-line;
+            border-top: 1px solid #00ffcc;
+            padding-top: 15px;
+        }
+    </style>
 </head>
 <body>
 
-<h1>Personal Finance Tracker</h1>
+<h2>=== Personal Finance Tracker ===</h2>
 
-<label>Income:</label>
-<input type="number" id="income"><br><br>
+<label>Enter monthly income:</label><br>
+<input type="number" id="income"><br>
 
-<label>Expenses (comma separated):</label>
-<input type="text" id="expenses"><br><br>
+<label>Enter expenses (comma separated):</label><br>
+<input type="text" id="expenses" placeholder="e.g. 200,300,150"><br>
 
-<button onclick="calculate()">Calculate</button>
+<button onclick="calculate()">Run Program</button>
 
-<h3 id="result"></h3>
+<div id="output"></div>
 
 <script>
 function calculate() {
     let income = parseFloat(document.getElementById("income").value);
-    let expenses = document.getElementById("expenses").value.split(",");
+    let expensesInput = document.getElementById("expenses").value;
 
-    let total = 0;
+    let expenses = expensesInput.split(",");
+    let values = [];
 
     for (let i = 0; i < expenses.length; i++) {
-        total += parseFloat(expenses[i]) || 0;
+        let val = parseFloat(expenses[i]);
+        if (!isNaN(val)) {
+            values.push(val);
+        }
+    }
+
+    let total = 0;
+    for (let v of values) {
+        total += v;
     }
 
     let savings = income - total;
 
-    document.getElementById("result").innerHTML =
-        "Total: $" + total + "<br>Savings: $" + savings;
+    let highest = values.length ? Math.max(...values) : 0;
+    let average = values.length ? total / values.length : 0;
+
+    // Match Python-style output
+    let result =
+`--- Summary ---
+
+Total Expenses: $${total.toFixed(2)}
+Savings: $${savings.toFixed(2)}
+Highest Expense: $${highest.toFixed(2)}
+Average Expense: $${average.toFixed(2)}`;
+
+    document.getElementById("output").textContent = result;
 }
 </script>
 
