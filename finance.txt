@@ -1,4 +1,4 @@
-January,3000.00,1785.00,1215.00
+
 
 ===== JANUARY =====
 Item                     Amount ($)
