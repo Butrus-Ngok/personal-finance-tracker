@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Finance Tracker</title>
+</head>
+<body>
+
+<h1>Personal Finance Tracker</h1>
+
+<label>Income:</label>
+<input type="number" id="income"><br><br>
+
+<label>Expenses (comma separated):</label>
+<input type="text" id="expenses"><br><br>
+
+<button onclick="calculate()">Calculate</button>
+
+<h3 id="result"></h3>
+
+<script>
+function calculate() {
+    let income = parseFloat(document.getElementById("income").value);
+    let expenses = document.getElementById("expenses").value.split(",");
+
+    let total = 0;
+
+    for (let i = 0; i < expenses.length; i++) {
+        total += parseFloat(expenses[i]) || 0;
+    }
+
+    let savings = income - total;
+
+    document.getElementById("result").innerHTML =
+        "Total: $" + total + "<br>Savings: $" + savings;
+}
+</script>
+
+</body>
+</html>
